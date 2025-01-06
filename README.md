@@ -1,11 +1,11 @@
+![text-work](https://github.com/user-attachments/assets/c6c5a429-d39c-46f9-9bf1-2f051832dc98)
+
+
 # CafeIte
 ============================<br />
 Sistem aplikasi kantin ini dirancang untuk mempermudah pelanggan dalam melakukan pemesanan makanan dan minuman secara online. Aplikasi ini memberikan pengalaman yang efisien dan nyaman, baik bagi pengguna (pelanggan) maupun pengelola kantin. Sistem akan memuat berbagai fitur utama yang mendukung pemesanan dan pengelolaan, seperti katalog menu, sistem pembayaran, dan pelacakan pesanan.  
 
 Pengguna melakukan pembayaran dengan menggunakan sistem pembayaran COD (cash on delivery) dan pembayaran online melalui Qris di mana aplikasi menyediakan form pembayaran yang terhubung dengan rekening kantin. Apabila uang pembayaran sudah masuk ke bank, maka bank akan mengirimkan konfirmasi pembayaran ke aplikasi dan aplikasi akan mengirimkan konfirmasi pembayaran kepada pembeli melalui e-mail pembeli. Notifikasi permintaan pengiriman barang akan dikirimkan kepada jasa kurir apabila aplikasi sudah menerima konfirmasi pembayaran dari bank. Apabila jumlah produk yang tersedia telah habis, maka aplikasi akan mengirimkan notifikasi permintaan produk kepada pemasok. <br />
-
-![download-downloading](https://github.com/user-attachments/assets/7971a6b6-2724-497b-ae2a-d44f304a656c)
-
 
 ## UI FIGMA
 ============================<br />
