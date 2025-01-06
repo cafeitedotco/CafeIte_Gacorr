@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cafeit_gacor/admin/pages/home_admin.dart'; // Pastikan Anda mengimpor HomeScreen
-import 'package:cafeit_gacor/user/pages/home.dart'; // Pastikan Anda mengimpor HomeScreenUser
+import 'package:cafeit_gacor/user/pages/home_user.dart'; // Pastikan Anda mengimpor HomeScreenUser
 import 'package:cafeit_gacor/pages/register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomePage()),
+                                  builder: (context) => HomePageUser()),
                               (Route<dynamic> route) => false,
                             );
                           }

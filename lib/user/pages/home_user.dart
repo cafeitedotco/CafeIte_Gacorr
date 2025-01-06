@@ -8,65 +8,45 @@ import 'package:cafeit_gacor/config.dart'; //CONFIG
 import 'package:cafeit_gacor/utils/model.dart'; //MODEL
 import 'package:cafeit_gacor/utils/restapi.dart'; //API
 
-import 'package:cafeit_gacor/user/navigation_bar.dart';
+import 'package:cafeit_gacor/user/navigation_bar_user.dart';
 
-class HomePage extends StatefulWidget {
+class HomePageUser extends StatefulWidget {
+  const HomePageUser({Key? key}) : super(key: key);
+
   @override
-  HomePageState createState() => HomePageState();
+  HomePageUserState createState() => HomePageUserState();
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageUserState extends State<HomePageUser> {
   final searchKeyword = TextEditingController();
-  bool searchStatus = false;
-
   DataService ds = DataService();
-
-  List data = [];
   List<MakananberatModel> makananberat = [];
-
-  List<MakananberatModel> search_data = [];
-  List<MakananberatModel> search_data_pre = [];
-
-  selectAllMakananberat() async {
-    data =
-        jsonDecode(await ds.selectAll(token, project, 'makananberat', appid));
-    makananberat = data.map((e) => MakananberatModel.fromJson(e)).toList();
-
-    //refresh the UI
-    setState(() {
-      makananberat = makananberat;
-    });
-  }
-
-  //SEARCHING FUNCTION
-  void filterMakananberat(String enteredKeyword) {
-    if (enteredKeyword.isEmpty) {
-      search_data = data.map((e) => MakananberatModel.fromJson(e)).toList();
-    } else {
-      search_data_pre = data.map((e) => MakananberatModel.fromJson(e)).toList();
-      search_data = search_data_pre
-          .where((user) =>
-              user.nama.toLowerCase().contains(enteredKeyword.toLowerCase()))
-          .toList();
-    }
-
-    //refresh the UI
-    setState(() {
-      makananberat = search_data;
-    });
-  }
-
-  //future reload data makananberat
-  Future reloadDataMakananberat(dynamic value) async {
-    setState(() {
-      selectAllMakananberat();
-    });
-  }
 
   @override
   void initState() {
-    selectAllMakananberat(); // TODO: implement initState
     super.initState();
+    selectAllMakananberat(); // Fetch data on initialization
+  }
+
+  Future<void> selectAllMakananberat() async {
+    // Fetch all items and update the state
+    final response = await ds.selectAll(token, project, 'makananberat', appid);
+    List data = jsonDecode(response);
+    
+    setState(() {
+      makananberat = data.map((e) => MakananberatModel.fromJson(e)).toList();
+    });
+  }
+
+  void filterMakananberat(String enteredKeyword) {
+    if (enteredKeyword.isEmpty) {
+      selectAllMakananberat(); // Reload all data when search is empty
+    } else {
+      setState(() {
+        makananberat = makananberat.where((item) =>
+            item.nama.toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+      });
+    }
   }
 
   @override
@@ -89,14 +69,9 @@ class HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 20),
             ),
             IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => CartPage(
-                //               cartItems: cartItems,
-                //             )));
+              icon: Icon(Icons.shopping_cart_checkout),
+              onPressed: () async {
+                //tambah ke keranjang
               },
             ),
           ],
@@ -189,6 +164,12 @@ class HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Image.network(
+                          item.image,
+                          height: 100,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                         Text(
                           item.nama,
                           style: const TextStyle(

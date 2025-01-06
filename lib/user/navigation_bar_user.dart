@@ -1,4 +1,4 @@
-import 'package:cafeit_gacor/user/pages/home.dart';
+import 'package:cafeit_gacor/user/pages/home_user.dart';
 import 'package:cafeit_gacor/user/pages/profile_user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class BottomNavigationUser extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
+                    MaterialPageRoute(builder: (context) => HomePageUser()),
                     (Route<dynamic> route) => false,
                   );
                 },

@@ -1,8 +1,8 @@
+import 'package:cafeit_gacor/user/navigation_bar_user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
-import 'package:cafeit_gacor/user/navigation_bar.dart';
 
 class ProfileScreenUser extends StatelessWidget {
   const ProfileScreenUser({Key? key}) : super(key: key);

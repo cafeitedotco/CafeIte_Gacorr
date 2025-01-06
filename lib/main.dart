@@ -3,7 +3,7 @@
 //992024006 - Masyitah Nanda Yassril
 //162022030 - Gilang Ramadhan
 
-import 'package:cafeit_gacor/user/pages/home.dart';
+import 'package:cafeit_gacor/user/pages/home_user.dart';
 import 'package:cafeit_gacor/admin/pages/home_admin.dart';
 import 'package:cafeit_gacor/pages/login.dart';
 
@@ -33,9 +33,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: HomePageUser(),
       routes: {
         'home_admin': (contect) => HomePageAdmin(),
+        'home_user': (contect) => HomePageUser(),
         // 'login_page': (contect) => LoginPage(),
       },
     );
