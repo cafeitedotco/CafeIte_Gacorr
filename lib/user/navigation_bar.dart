@@ -1,4 +1,6 @@
-import 'package:cafeit_gacor/user/makanan/home.dart';
+import 'package:cafeit_gacor/user/pages/home.dart';
+import 'package:cafeit_gacor/user/pages/profile_user.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationUser extends StatelessWidget {
@@ -49,6 +51,7 @@ class BottomNavigationUser extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.shopping_basket, size: 30),
                 onPressed: () {
+                  // Uncomment and replace with your PesananSayaScreen
                   // Navigator.pushAndRemoveUntil(
                   //   context,
                   //   MaterialPageRoute(builder: (context) => PesananSayaScreen()),
@@ -70,11 +73,12 @@ class BottomNavigationUser extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.person, size: 30),
                 onPressed: () {
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => ProfileScreen()),
-                  //   (Route<dynamic> route) => false,
-                  // );
+                  // Uncomment and replace with your ProfileScreen
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileScreenUser()),
+                    (Route<dynamic> route) => false,
+                  );
                 },
               ),
               const Text(

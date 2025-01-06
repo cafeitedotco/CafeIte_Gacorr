@@ -3,20 +3,27 @@
 //992024006 - Masyitah Nanda Yassril
 //162022030 - Gilang Ramadhan
 
-// ignore_for_file: unused_import
-
-import 'package:cafeit_gacor/user/makanan/home.dart';
+import 'package:cafeit_gacor/user/pages/home.dart';
 import 'package:cafeit_gacor/admin/pages/home_admin.dart';
+import 'package:cafeit_gacor/pages/login.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,15 +33,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePageAdmin(),
+      home: HomePage(),
       routes: {
         'home_admin': (contect) => HomePageAdmin(),
-        //'registration_screen': (context) => RegistrationScreen(),
-        //'login_screen': (context) => LoginScreen(),
-        //'home_screen': (context) => HomeScreen(),
-        //'data_todo': (context) => DataTodo(),
-        //'add_todo': (context) => AddTodo(),
-        //'update_todo': (context) => UpdateTodo(),
+        // 'login_page': (contect) => LoginPage(),
       },
     );
   }

@@ -1,8 +1,9 @@
 import 'package:cafeit_gacor/admin/pages/home_admin.dart';
+import 'package:cafeit_gacor/admin/pages/profile_admin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:cafeit_gacor/admin/restapi.dart'; 
+import 'package:cafeit_gacor/utils/restapi.dart'; 
 
 class BottomNavigationAdmin extends StatelessWidget {
   const BottomNavigationAdmin({Key? key}) : super(key: key);
@@ -75,11 +76,11 @@ class BottomNavigationAdmin extends StatelessWidget {
                 icon: const Icon(Icons.person, size: 30),
                 onPressed: () {
                   // Uncomment and replace with your ProfileScreen
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => ProfileScreen()),
-                  //   (Route<dynamic> route) => false,
-                  // );
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileScreenAdmin()),
+                    (Route<dynamic> route) => false,
+                  );
                 },
               ),
               const Text(

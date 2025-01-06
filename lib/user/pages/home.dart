@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cafeit_gacor/utils/fire_auth.dart';
 import 'package:cafeit_gacor/config.dart'; //CONFIG
-import 'package:cafeit_gacor/user/makanan/model.dart'; //MODEL
-import 'package:cafeit_gacor/user/makanan/restapi.dart'; //API
+import 'package:cafeit_gacor/utils/model.dart'; //MODEL
+import 'package:cafeit_gacor/utils/restapi.dart'; //API
 
 import 'package:cafeit_gacor/user/navigation_bar.dart';
 
