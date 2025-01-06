@@ -6,6 +6,7 @@
 // ignore_for_file: unused_import
 
 import 'package:cafeit_gacor/user/makanan/home.dart';
+import 'package:cafeit_gacor/admin/pages/home_admin.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -25,9 +26,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: HomePageAdmin(),
       routes: {
-        'home': (contect) => HomePage(),
+        'home_admin': (contect) => HomePageAdmin(),
         //'registration_screen': (context) => RegistrationScreen(),
         //'login_screen': (context) => LoginScreen(),
         //'home_screen': (context) => HomeScreen(),
