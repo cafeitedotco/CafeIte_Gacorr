@@ -1,6 +1,3 @@
-![text-work](https://github.com/user-attachments/assets/c6c5a429-d39c-46f9-9bf1-2f051832dc98)
-
-
 # CafeIte
 ============================<br />
 Sistem aplikasi kantin ini dirancang untuk mempermudah pelanggan dalam melakukan pemesanan makanan dan minuman secara online. Aplikasi ini memberikan pengalaman yang efisien dan nyaman, baik bagi pengguna (pelanggan) maupun pengelola kantin. Sistem akan memuat berbagai fitur utama yang mendukung pemesanan dan pengelolaan, seperti katalog menu, sistem pembayaran, dan pelacakan pesanan.  
@@ -10,3 +7,7 @@ Pengguna melakukan pembayaran dengan menggunakan sistem pembayaran COD (cash on 
 ## UI FIGMA
 ============================<br />
 https://www.figma.com/design/w6WkNS1cb03SE1XDvK4htR/CafeITe?node-id=0-1&t=T8gM7zM7ngOVHYee-1
+
+
+![ai-bot](https://github.com/user-attachments/assets/253e1dca-71bf-4426-aad7-b3d881859b49)
+
