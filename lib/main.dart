@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home: HomePageAdmin(),
       routes: {
         'home_admin': (contect) => HomePageAdmin(),
         'home_user': (contect) => HomePageUser(),

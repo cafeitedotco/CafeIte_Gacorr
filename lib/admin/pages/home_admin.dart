@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cafeite/utils/restapi.dart'; // API
@@ -62,13 +60,9 @@ class HomePageAdminState extends State<HomePageAdmin> {
             ),
             IconButton(
               icon: Icon(Icons.add),
-              onPressed: () async {
-                final result = await showInsertDialog(context, appid, ds);
-                if (result != null) {
-                  setState(() {
-                    makananberat.add(result); // Tambahkan langsung ke list
-                  });
-                }
+              onPressed: () {
+                showInsertDialog(
+                    context, appid, ds); // Call the dialog without await
               },
             ),
           ],
@@ -139,7 +133,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            item.harga,
+                            "RP. ${item.harga}",
                             style: const TextStyle(
                               fontSize: 16.0,
                               color: Colors.grey,
@@ -159,15 +153,14 @@ class HomePageAdminState extends State<HomePageAdmin> {
     );
   }
 
-  Future<MakananberatModel?> showInsertDialog(
-      BuildContext context, String appid, DataService ds) async {
+  void showInsertDialog(BuildContext context, String appid, DataService ds) {
     final nama = TextEditingController();
     final harga = TextEditingController();
     final deskripsi = TextEditingController();
     final image = TextEditingController();
     String kategori = 'Makanan';
 
-    return showDialog<MakananberatModel?>(
+    showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
@@ -213,7 +206,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(null),
+              onPressed: () => Navigator.of(dialogContext).pop(),
               child: const Text('Batal'),
             ),
             TextButton(
@@ -243,18 +236,120 @@ class HomePageAdminState extends State<HomePageAdmin> {
                         kategori: kategori,
                       );
 
-                      Navigator.of(dialogContext)
-                          .pop(newItem); // Kembalikan objek baru
+                      // Close the dialog
+                      Navigator.of(dialogContext).pop();
+
+                      // Update UI in HomePageAdmin
+                      setState(() {
+                        makananberat
+                            .add(newItem); // Add the new item to the list
+                      });
+
+                      // Optionally, call selectAllMakananberat to refresh the entire list
+                      await selectAllMakananberat();
+
+                      // Show confirmation dialog
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Berhasil"),
+                            content:
+                                const Text("Makanan berhasil ditambahkan!"),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     } else {
-                      Navigator.of(dialogContext).pop(null);
+                      Navigator.of(dialogContext).pop();
                     }
                   } catch (e) {
                     print("Error: $e");
-                    Navigator.of(dialogContext).pop(null);
+                    Navigator.of(dialogContext).pop();
                   }
                 }
               },
               child: const Text('Tambah'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDetailDialog(BuildContext context, MakananberatModel item) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            width: 300,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.network(
+                    item.image,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 150,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  item.nama,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  "Harga: RP. ${item.harga}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  item.deskripsi,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close detail dialog
+                showEditDialog(context, item); // Call edit dialog
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                Navigator.of(context).pop();
+                showDeleteConfirmationDialog(
+                    context, item); // Call delete confirmation dialog
+              },
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: const Text("Tutup"),
             ),
           ],
         );
@@ -334,8 +429,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
         TextEditingController(text: item.deskripsi);
     final TextEditingController imageController =
         TextEditingController(text: item.image);
-    String? selectedKategori =
-        item.kategori; // Mengambil kategori yang ada dari item
+    String? selectedKategori = item.kategori;
 
     return showDialog(
       context: context,
@@ -343,7 +437,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
         return AlertDialog(
           title: const Text("Edit Makanan"),
           content: SizedBox(
-            height: 300, // Atur tinggi sesuai kebutuhan
+            height: 300,
             child: Column(
               children: [
                 TextField(
@@ -410,55 +504,6 @@ class HomePageAdminState extends State<HomePageAdmin> {
                 }
               },
               child: const Text("Simpan"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showDetailDialog(BuildContext context, MakananberatModel item) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(item.nama),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 150, // Atur lebar sesuai kebutuhan
-                height: 100, // Atur tinggi sesuai kebutuhan
-                child: Image.network(
-                  item.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text("Harga: ${item.harga}"),
-            ],
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.edit),
-              color: const Color.fromARGB(255, 0, 0, 0),
-              onPressed: () {
-                Navigator.of(context).pop(); // Tutup dialog detail
-                showEditDialog(context, item); // Panggil showEditDialog
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                showDeleteConfirmationDialog(
-                    context, item); // Panggil dialog konfirmasi hapus
-              },
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Tutup dialog
-              },
-              child: const Text("Tutup"),
             ),
           ],
         );
