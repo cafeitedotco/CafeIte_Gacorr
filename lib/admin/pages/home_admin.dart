@@ -1,13 +1,15 @@
+// ignore_for_file: unused_import
+
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:cafeit_gacor/utils/fire_auth.dart';
-import 'package:cafeit_gacor/config.dart'; // CONFIG
-import 'package:cafeit_gacor/utils/model.dart'; // MODEL
-import 'package:cafeit_gacor/utils/restapi.dart'; // API
-import 'package:cafeit_gacor/admin/navigation_bar_admin.dart';
+import 'package:cafeite/utils/fire_auth.dart';
+import 'package:cafeite/config.dart'; // CONFIG
+import 'package:cafeite/utils/model.dart'; // MODEL
+import 'package:cafeite/utils/restapi.dart'; // API
+import 'package:cafeite/admin/navigation_bar_admin.dart';
 
 class HomePageAdmin extends StatefulWidget {
   const HomePageAdmin({Key? key}) : super(key: key);
@@ -31,7 +33,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
     // Fetch all items and update the state
     final response = await ds.selectAll(token, project, 'makananberat', appid);
     List data = jsonDecode(response);
-    
+
     setState(() {
       makananberat = data.map((e) => MakananberatModel.fromJson(e)).toList();
     });
@@ -42,8 +44,10 @@ class HomePageAdminState extends State<HomePageAdmin> {
       selectAllMakananberat(); // Reload all data when search is empty
     } else {
       setState(() {
-        makananberat = makananberat.where((item) =>
-            item.nama.toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+        makananberat = makananberat
+            .where((item) =>
+                item.nama.toLowerCase().contains(enteredKeyword.toLowerCase()))
+            .toList();
       });
     }
   }
@@ -57,12 +61,6 @@ class HomePageAdminState extends State<HomePageAdmin> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
             Text(
               "CafeITe's Menu",
               style: TextStyle(fontSize: 20),
@@ -72,7 +70,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
               onPressed: () async {
                 // Show the insert dialog and wait for the result
                 final result = await showInsertDialog(context, appid);
-                
+
                 // If the result is true, reload the data
                 if (result == true) {
                   await selectAllMakananberat(); // Reload data
@@ -105,46 +103,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Filter Makanan Berat
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF8B0000),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.fastfood,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        "Makanan Berat",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Filter Snack
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: const Text("Snack"),
-                ),
-              ],
+              children: [],
             ),
           ),
           const SizedBox(height: 8),
@@ -190,17 +149,31 @@ class HomePageAdminState extends State<HomePageAdmin> {
                             color: Colors.grey,
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: IconButton(
-                            onPressed: () {
-                              // Add to cart functionality
-                            },
-                            icon: const Icon(
-                              Icons.add,
-                              color: Colors.brown,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                // Add delete functionality
+                              },
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
+                            const SizedBox(
+                                width:
+                                    8.0), // Add some space between the buttons
+                            IconButton(
+                              onPressed: () {
+                                // Add edit functionality
+                              },
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

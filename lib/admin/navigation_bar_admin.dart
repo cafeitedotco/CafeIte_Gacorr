@@ -1,9 +1,9 @@
-import 'package:cafeit_gacor/admin/pages/home_admin.dart';
-import 'package:cafeit_gacor/admin/pages/profile_admin.dart';
+import 'package:cafeite/admin/pages/home_admin.dart';
+import 'package:cafeite/admin/pages/profile_admin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:cafeit_gacor/utils/restapi.dart'; 
+import 'package:cafeite/utils/restapi.dart';
 
 class BottomNavigationAdmin extends StatelessWidget {
   const BottomNavigationAdmin({Key? key}) : super(key: key);
@@ -78,7 +78,8 @@ class BottomNavigationAdmin extends StatelessWidget {
                   // Uncomment and replace with your ProfileScreen
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => ProfileScreenAdmin()),
+                    MaterialPageRoute(
+                        builder: (context) => ProfileScreenAdmin()),
                     (Route<dynamic> route) => false,
                   );
                 },
@@ -101,6 +102,7 @@ Future<bool?> showInsertDialog(BuildContext context, String appid) {
   final harga = TextEditingController();
   final deskripsi = TextEditingController();
   final image = TextEditingController();
+  final kategori = TextEditingController();
 
   DataService ds = DataService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -165,17 +167,19 @@ Future<bool?> showInsertDialog(BuildContext context, String appid) {
             onPressed: () => Navigator.of(dialogContext).pop(false), // Cancel
             child: Text('Batal'),
           ),
-         TextButton(
+          TextButton(
             onPressed: () async {
               if (_formKey.currentState?.validate() == true) {
                 // If form is valid, close dialog and return true
                 try {
                   String responseString = await ds.insertMakananberat(
-                    appid, 
+                    appid,
                     nama.text,
                     harga.text,
                     deskripsi.text,
                     image.text,
+                    kategori.text,
+                    //satu lgi?
                   );
 
                   print('Response: $responseString'); // Log the full response

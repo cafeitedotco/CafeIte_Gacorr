@@ -1,23 +1,21 @@
-import 'package:cafeit_gacor/user/navigation_bar_user.dart';
+import 'package:cafeite/user/navigation_bar_user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileScreenUser extends StatelessWidget {
   const ProfileScreenUser({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Mengambil pengguna saat ini
     User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView( // Tambahkan SingleChildScrollView untuk scrollable
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            // Gambar Profil
             Padding(
               padding: const EdgeInsets.only(top: 50.0),
               child: Center(
@@ -31,11 +29,12 @@ class ProfileScreenUser extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Informasi Pengguna
             const SizedBox(height: 20),
             FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance.collection('users').doc(user?.uid).get(),
+              future: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user?.uid)
+                  .get(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
@@ -48,7 +47,8 @@ class ProfileScreenUser extends StatelessWidget {
                 }
 
                 var userData = snapshot.data!.data() as Map<String, dynamic>;
-                String username = userData['username'] ?? 'Tidak Ada Nama Pengguna';
+                String username =
+                    userData['username'] ?? 'Tidak Ada Nama Pengguna';
                 String status = userData['status'] ?? 'Tidak Ada Status';
                 String email = user?.email ?? 'Tidak Ada Email';
 
@@ -56,7 +56,8 @@ class ProfileScreenUser extends StatelessWidget {
                   children: [
                     Text(
                       username,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -72,10 +73,9 @@ class ProfileScreenUser extends StatelessWidget {
                 );
               },
             ),
-
-            // Menu Item
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
               child: Column(
                 children: [
                   const SizedBox(height: 16),
@@ -102,14 +102,11 @@ class ProfileScreenUser extends StatelessWidget {
       bottomNavigationBar: const BottomNavigationUser(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // Keluar dari pengguna
-          await FirebaseAuth.instance.signOut(); // Keluar dari Firebase
+          await FirebaseAuth.instance.signOut();
 
-          // Hapus status login
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.remove('is_logged_in');
 
-          // Navigasi ke halaman login
           Navigator.pushNamed(context, 'login_page');
         },
         child: const Icon(Icons.logout),

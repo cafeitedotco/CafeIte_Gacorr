@@ -3,21 +3,30 @@
 import 'package:http/http.dart' as http;
 
 class DataService {
-  Future insertMakananberat(String appid, String nama, String harga,
-      String deskripsi, String image, String kategori) async {
+  Future insertPesanan(
+      String appid,
+      String pesanan_yang_di_pesan,
+      String alamat,
+      String pengiriman,
+      String pembayaran,
+      String subtotal,
+      String status_pesanan,
+      String userid) async {
     String uri = 'https://io.etter.cloud/v4/insert';
 
     try {
       final response = await http.post(Uri.parse(uri), body: {
         'token': '6773b664f853312de5509c6d',
         'project': 'cafeite',
-        'collection': 'makananberat',
+        'collection': 'pesanan',
         'appid': appid,
-        'nama': nama,
-        'harga': harga,
-        'deskripsi': deskripsi,
-        'image': image,
-        'kategori': kategori
+        'pesanan_yang_di_pesan': pesanan_yang_di_pesan,
+        'alamat': alamat,
+        'pengiriman': pengiriman,
+        'pembayaran': pembayaran,
+        'subtotal': subtotal,
+        'status_pesanan': status_pesanan,
+        'userid': userid
       });
 
       if (response.statusCode == 200) {
@@ -1174,6 +1183,4 @@ class DataService {
       return '[]';
     }
   }
-
-  
 }

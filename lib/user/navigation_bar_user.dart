@@ -1,5 +1,7 @@
-import 'package:cafeit_gacor/user/pages/home_user.dart';
-import 'package:cafeit_gacor/user/pages/profile_user.dart';
+import 'package:cafeite/user/pages/home_user.dart';
+import 'package:cafeite/user/pages/profile_user.dart';
+import 'package:cafeite/user/pages/pesanan_saya.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +25,6 @@ class BottomNavigationUser extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // Home Button
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -43,20 +44,17 @@ class BottomNavigationUser extends StatelessWidget {
               ),
             ],
           ),
-
-          // Pesanan Saya Button
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                 icon: const Icon(Icons.shopping_basket, size: 30),
                 onPressed: () {
-                  // Uncomment and replace with your PesananSayaScreen
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => PesananSayaScreen()),
-                  //   (Route<dynamic> route) => false,
-                  // );
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => PesananSaya()),
+                    (Route<dynamic> route) => false,
+                  );
                 },
               ),
               const Text(
@@ -65,18 +63,16 @@ class BottomNavigationUser extends StatelessWidget {
               ),
             ],
           ),
-
-          // Profile Button
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                 icon: const Icon(Icons.person, size: 30),
                 onPressed: () {
-                  // Uncomment and replace with your ProfileScreen
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => ProfileScreenUser()),
+                    MaterialPageRoute(
+                        builder: (context) => ProfileScreenUser()),
                     (Route<dynamic> route) => false,
                   );
                 },

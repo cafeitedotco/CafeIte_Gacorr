@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
-import 'package:cafeit_gacor/admin/navigation_bar_admin.dart';
+import 'package:cafeite/admin/navigation_bar_admin.dart';
 
 class ProfileScreenAdmin extends StatelessWidget {
   const ProfileScreenAdmin({Key? key}) : super(key: key);
@@ -14,7 +14,8 @@ class ProfileScreenAdmin extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView( // Tambahkan SingleChildScrollView untuk scrollable
+      body: SingleChildScrollView(
+        // Tambahkan SingleChildScrollView untuk scrollable
         child: Column(
           children: [
             // Gambar Profil
@@ -35,7 +36,10 @@ class ProfileScreenAdmin extends StatelessWidget {
             // Informasi Pengguna
             const SizedBox(height: 20),
             FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance.collection('users').doc(user?.uid).get(),
+              future: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user?.uid)
+                  .get(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
@@ -48,7 +52,8 @@ class ProfileScreenAdmin extends StatelessWidget {
                 }
 
                 var userData = snapshot.data!.data() as Map<String, dynamic>;
-                String username = userData['username'] ?? 'Tidak Ada Nama Pengguna';
+                String username =
+                    userData['username'] ?? 'Tidak Ada Nama Pengguna';
                 String status = userData['status'] ?? 'Tidak Ada Status';
                 String email = user?.email ?? 'Tidak Ada Email';
 
@@ -56,7 +61,8 @@ class ProfileScreenAdmin extends StatelessWidget {
                   children: [
                     Text(
                       username,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -75,7 +81,8 @@ class ProfileScreenAdmin extends StatelessWidget {
 
             // Menu Item
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
               child: Column(
                 children: [
                   const SizedBox(height: 16),

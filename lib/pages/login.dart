@@ -1,10 +1,12 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:cafeit_gacor/admin/pages/home_admin.dart'; // Pastikan Anda mengimpor HomeScreen
-import 'package:cafeit_gacor/user/pages/home_user.dart'; // Pastikan Anda mengimpor HomeScreenUser
-import 'package:cafeit_gacor/pages/register.dart';
+import 'package:cafeite/admin/pages/home_admin.dart'; // Pastikan Anda mengimpor HomeScreen
+import 'package:cafeite/user/pages/home_user.dart'; // Pastikan Anda mengimpor HomeScreenUser
+import 'package:cafeite/pages/register.dart';
 
 class LoginPage extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cafeit_gacor/pages/login.dart';
+import 'package:cafeite/pages/login.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -10,13 +10,13 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance; 
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
   late String email = '';
   late String password = '';
   late String username = '';
-  late String phoneNumber = ''; 
-  late String status = '';       
+  late String phoneNumber = '';
+  late String status = '';
 
   final Color primaryColor = const Color(0xFFF4A261);
   final Color accentColor = const Color(0xFFE9C46A);
@@ -48,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Text(
                           'Create Account',
                           style: TextStyle(
-                            fontSize: size.width * 0.05,
+                            fontSize: size.width * 0.05, // Adjust as needed
                             fontWeight: FontWeight.bold,
                             color: Colors.black87,
                           ),
@@ -59,7 +59,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextFormField(
                           decoration: InputDecoration(
                             hintText: 'Username',
-                            prefixIcon: Icon(Icons.person, color: Colors.black87),
+                            prefixIcon:
+                                Icon(Icons.person, color: Colors.black87),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16.0),
                             ),
@@ -81,7 +82,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'Email',
-                            prefixIcon: Icon(Icons.email, color: Colors.black87),
+                            prefixIcon:
+                                Icon(Icons.email, color: Colors.black87),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16.0),
                             ),
@@ -93,7 +95,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             if (value == null || value.isEmpty) {
                               return 'Email is required';
                             }
-                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                .hasMatch(value)) {
                               return 'Enter a valid email address';
                             }
                             return null;
@@ -106,7 +109,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             hintText: 'Phone Number',
-                            prefixIcon: Icon(Icons.phone, color: Colors.black87),
+                            prefixIcon:
+                                Icon(Icons.phone, color: Colors.black87),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16.0),
                             ),
@@ -186,7 +190,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               try {
-                                final result = await _auth.createUserWithEmailAndPassword(
+                                final result =
+                                    await _auth.createUserWithEmailAndPassword(
                                   email: email,
                                   password: password,
                                 );
@@ -194,12 +199,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                 User? user = result.user;
 
                                 if (user != null) {
-                                  await user.updateProfile(displayName: username);
+                                  await user.updateProfile(
+                                      displayName: username);
                                   await user.reload();
                                   user = FirebaseAuth.instance.currentUser;
 
                                   // Store user data in Firestore
-                                  await _firestore.collection('users').doc(user!.uid).set({
+                                  await _firestore
+                                      .collection('users')
+                                      .doc(user!.uid)
+                                      .set({
                                     'username': username,
                                     'email': email,
                                     'phoneNumber': phoneNumber,
@@ -209,11 +218,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => LoginPage()),
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()),
                                   );
                                 }
                               } catch (e) {
-                                String errorMessage = 'An error occurred, please try again.';
+                                String errorMessage =
+                                    'An error occurred, please try again.';
                                 if (e is FirebaseAuthException) {
                                   errorMessage = e.message ?? errorMessage;
                                 }
@@ -237,7 +248,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Sign Up',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: size.width * 0.04,
+                              fontSize: size.width * 0.035, // Smaller font size
                             ),
                           ),
                         ),
@@ -248,14 +259,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => LoginPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
                             );
                           },
                           child: Text(
                             'Already have an account? Log in',
                             style: TextStyle(
                               color: primaryColor,
-                              fontSize: size.width * 0.04,
+                              fontSize: size.width * 0.035, // Smaller font size
                             ),
                           ),
                         ),
