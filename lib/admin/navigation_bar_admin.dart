@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:cafeite/utils/restapi.dart';
+import 'package:cafeite/utils/model.dart';
+import 'package:cafeite/admin/pages/pesanan.dart';
 
 class BottomNavigationAdmin extends StatelessWidget {
   const BottomNavigationAdmin({Key? key}) : super(key: key);
@@ -53,12 +55,10 @@ class BottomNavigationAdmin extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.shopping_basket, size: 30),
                 onPressed: () {
-                  // Uncomment and replace with your PesananSayaScreen
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => PesananSayaScreen()),
-                  //   (Route<dynamic> route) => false,
-                  // );
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PesananAdmin()));
                 },
               ),
               const Text(
@@ -97,21 +97,22 @@ class BottomNavigationAdmin extends StatelessWidget {
 }
 
 // Function to show the insert dialog
-Future<bool?> showInsertDialog(BuildContext context, String appid) {
+Future<MakananberatModel?> showInsertDialog(
+    BuildContext context, String appid) async {
   final nama = TextEditingController();
   final harga = TextEditingController();
   final deskripsi = TextEditingController();
   final image = TextEditingController();
-  final kategori = TextEditingController();
+  String kategori = 'Makanan'; // Nilai default untuk kategori
 
   DataService ds = DataService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  return showDialog<bool>(
+  return showDialog<MakananberatModel?>(
     context: context,
     builder: (BuildContext dialogContext) {
       return AlertDialog(
-        title: Text('Insert Makanan'),
+        title: const Text('Insert Makanan'),
         content: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -119,44 +120,45 @@ Future<bool?> showInsertDialog(BuildContext context, String appid) {
               children: [
                 TextFormField(
                   controller: nama,
-                  decoration: InputDecoration(labelText: 'Nama'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Nama tidak boleh kosong';
-                    }
-                    return null; // Valid
-                  },
+                  decoration: const InputDecoration(labelText: 'Nama'),
+                  validator: (value) =>
+                      value?.isEmpty == true ? 'Nama tidak boleh kosong' : null,
                 ),
                 TextFormField(
                   controller: harga,
-                  decoration: InputDecoration(labelText: 'Harga'),
+                  decoration: const InputDecoration(labelText: 'Harga'),
                   keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Harga tidak boleh kosong';
-                    }
-                    return null; // Valid
-                  },
+                  validator: (value) => value?.isEmpty == true
+                      ? 'Harga tidak boleh kosong'
+                      : null,
                 ),
                 TextFormField(
                   controller: deskripsi,
-                  decoration: InputDecoration(labelText: 'Deskripsi'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Deskripsi tidak boleh kosong';
-                    }
-                    return null; // Valid
-                  },
+                  decoration: const InputDecoration(labelText: 'Deskripsi'),
+                  validator: (value) => value?.isEmpty == true
+                      ? 'Deskripsi tidak boleh kosong'
+                      : null,
                 ),
                 TextFormField(
                   controller: image,
-                  decoration: InputDecoration(labelText: 'ImageUrl'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'URL gambar tidak boleh kosong';
-                    }
-                    return null; // Valid
-                  },
+                  decoration: const InputDecoration(labelText: 'ImageUrl'),
+                  validator: (value) => value?.isEmpty == true
+                      ? 'URL gambar tidak boleh kosong'
+                      : null,
+                ),
+                const SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Kategori',
+                    border: OutlineInputBorder(),
+                  ),
+                  value: kategori,
+                  onChanged: (String? newValue) =>
+                      kategori = newValue ?? kategori,
+                  items: <String>['Makanan', 'Minuman', 'Snack']
+                      .map((String value) =>
+                          DropdownMenuItem(value: value, child: Text(value)))
+                      .toList(),
                 ),
               ],
             ),
@@ -164,13 +166,13 @@ Future<bool?> showInsertDialog(BuildContext context, String appid) {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false), // Cancel
-            child: Text('Batal'),
+            onPressed: () => Navigator.of(dialogContext)
+                .pop(null), // Tutup dialog tanpa hasil
+            child: const Text('Batal'),
           ),
           TextButton(
             onPressed: () async {
               if (_formKey.currentState?.validate() == true) {
-                // If form is valid, close dialog and return true
                 try {
                   String responseString = await ds.insertMakananberat(
                     appid,
@@ -178,33 +180,32 @@ Future<bool?> showInsertDialog(BuildContext context, String appid) {
                     harga.text,
                     deskripsi.text,
                     image.text,
-                    kategori.text,
-                    //satu lgi?
+                    kategori,
                   );
 
-                  print('Response: $responseString'); // Log the full response
-
-                  // Decode response
-                  List<dynamic> response = jsonDecode(responseString);
-                  // Check for success
+                  final response = jsonDecode(responseString);
                   if (response.isNotEmpty && response[0]['success'] == true) {
-                    // Navigate back to HomePageAdmin and wait for result
-                    await Navigator.pushAndRemoveUntil(
-                      dialogContext,
-                      MaterialPageRoute(builder: (context) => HomePageAdmin()),
-                      (Route<dynamic> route) => false,
+                    final newItem = MakananberatModel(
+                      id: response[0]['id'],
+                      nama: nama.text,
+                      harga: harga.text,
+                      deskripsi: deskripsi.text,
+                      image: image.text,
+                      kategori: kategori,
                     );
+
+                    Navigator.of(dialogContext)
+                        .pop(newItem); // Kembalikan objek baru
                   } else {
-                    print("Response content: $response");
-                    Navigator.of(dialogContext).pop(false); // Return false
+                    Navigator.of(dialogContext).pop(null);
                   }
                 } catch (e) {
-                  print("Error while decoding response: $e");
-                  Navigator.of(dialogContext).pop(false); // Return false
+                  print("Error: $e");
+                  Navigator.of(dialogContext).pop(null);
                 }
               }
             },
-            child: Text('Tambah'),
+            child: const Text('Tambah'),
           ),
         ],
       );
