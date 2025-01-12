@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:cafeite/utils/restapi.dart';
 import 'package:cafeite/utils/model.dart';
 import 'package:cafeite/admin/pages/pesanan.dart';
+import 'package:cafeite/admin/pages/dashboard.dart';
 
 class BottomNavigationAdmin extends StatelessWidget {
   const BottomNavigationAdmin({Key? key}) : super(key: key);
@@ -36,13 +37,33 @@ class BottomNavigationAdmin extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
+                    MaterialPageRoute(builder: (context) => Dashboard()),
+                    (Route<dynamic> route) => false,
+                  );
+                },
+              ),
+              const Text(
+                "Dashboard",
+                style: TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
+
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.fastfood_outlined, size: 30),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
                     MaterialPageRoute(builder: (context) => HomePageAdmin()),
                     (Route<dynamic> route) => false,
                   );
                 },
               ),
               const Text(
-                "Home",
+                "Makanan",
                 style: TextStyle(fontSize: 12),
               ),
             ],
@@ -62,7 +83,7 @@ class BottomNavigationAdmin extends StatelessWidget {
                 },
               ),
               const Text(
-                "Pesanan Saya",
+                "Pesanan",
                 style: TextStyle(fontSize: 12),
               ),
             ],

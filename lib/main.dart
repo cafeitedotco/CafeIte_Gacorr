@@ -7,6 +7,7 @@
 
 import 'package:cafeite/user/pages/home_user.dart';
 import 'package:cafeite/admin/pages/home_admin.dart';
+import 'package:cafeite/admin/pages/Dashboard.dart';
 import 'package:cafeite/pages/login.dart';
 import 'package:device_preview/device_preview.dart';
 
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePageAdmin(),
+      home: Dashboard(),
       routes: {
         'home_admin': (contect) => HomePageAdmin(),
         'home_user': (contect) => HomePageUser(),

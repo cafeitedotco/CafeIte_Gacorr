@@ -30,6 +30,8 @@ class HomePageAdminState extends State<HomePageAdmin> {
     setState(() {
       makananberat = data.map((e) => MakananberatModel.fromJson(e)).toList();
     });
+
+    print("Data refreshed: ${makananberat.length} items loaded.");
   }
 
   void filterMakananberat(String enteredKeyword) {
@@ -227,25 +229,10 @@ class HomePageAdminState extends State<HomePageAdmin> {
 
                     final response = jsonDecode(responseString);
                     if (response.isNotEmpty && response[0]['success'] == true) {
-                      final newItem = MakananberatModel(
-                        id: response[0]['id'],
-                        nama: nama.text,
-                        harga: harga.text,
-                        deskripsi: deskripsi.text,
-                        image: image.text,
-                        kategori: kategori,
-                      );
-
                       // Close the dialog
                       Navigator.of(dialogContext).pop();
 
-                      // Update UI in HomePageAdmin
-                      setState(() {
-                        makananberat
-                            .add(newItem); // Add the new item to the list
-                      });
-
-                      // Optionally, call selectAllMakananberat to refresh the entire list
+                      // Refresh the entire list after adding the new item
                       await selectAllMakananberat();
 
                       // Show confirmation dialog
@@ -258,7 +245,9 @@ class HomePageAdminState extends State<HomePageAdmin> {
                                 const Text("Makanan berhasil ditambahkan!"),
                             actions: [
                               TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                                 child: const Text("OK"),
                               ),
                             ],
