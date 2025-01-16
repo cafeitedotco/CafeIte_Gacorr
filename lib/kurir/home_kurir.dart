@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cafeite/kurir/navbar_kurir.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,10 +9,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Kurir Home Page',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: HomePageKurir(),
     );
   }
@@ -30,6 +27,7 @@ class HomePageKurir extends StatelessWidget {
           style: TextStyle(fontSize: 24),
         ),
       ),
+      bottomNavigationBar: BottomNavigationKurir(),
     );
   }
 }

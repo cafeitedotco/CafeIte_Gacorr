@@ -1,6 +1,6 @@
+//992024006 - Masyitah Nanda Yassril
 //992024008 - Nurmei Sarrah
 //992024007 - Zilfany
-//992024006 - Masyitah Nanda Yassril
 //162022030 - Gilang Ramadhan
 
 // ignore_for_file: unused_import
@@ -37,13 +37,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'cafeITe',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFF4A261)),
         useMaterial3: true,
       ),
       home:
-          HomePage(), //it should be the first route for each user to loggin' in
+          HomePageKurir(), //it should be the first route for each user to loggin' in
       routes: {
         'home_admin': (contect) => HomePageAdmin(),
+        'loginpage_kurir': (contect) => LoginPageKurir(),
         'home_user': (contect) => HomePageUser(),
         'home_kurir': (context) => HomePageKurir(),
         'login_page': (contect) => LoginPage(),
