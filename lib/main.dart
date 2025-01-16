@@ -7,8 +7,12 @@
 
 import 'package:cafeite/user/pages/home_user.dart';
 import 'package:cafeite/admin/pages/home_admin.dart';
+import 'package:cafeite/kurir/home_kurir.dart';
+import 'package:cafeite/home.dart';
 import 'package:cafeite/pages/login.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:cafeite/kurir/loginpage_kurir.dart';
+import 'package:cafeite/kurir/registerpage_kurir.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,10 +40,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home:
+          HomePage(), //it should be the first route for each user to loggin' in
       routes: {
         'home_admin': (contect) => HomePageAdmin(),
         'home_user': (contect) => HomePageUser(),
+        'home_kurir': (context) => HomePageKurir(),
         'login_page': (contect) => LoginPage(),
       },
     );
