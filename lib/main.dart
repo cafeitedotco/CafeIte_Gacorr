@@ -13,6 +13,7 @@ import 'package:cafeite/pages/login.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:cafeite/kurir/loginpage_kurir.dart';
 import 'package:cafeite/kurir/registerpage_kurir.dart';
+import 'package:cafeite/kurir/pengiriman.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'home_admin': (contect) => HomePageAdmin(),
         'loginpage_kurir': (contect) => LoginPageKurir(),
+        'pengiriman': (contect) => PengirimanPage(),
         'home_user': (contect) => HomePageUser(),
         'home_kurir': (context) => HomePageKurir(),
         'login_page': (contect) => LoginPage(),

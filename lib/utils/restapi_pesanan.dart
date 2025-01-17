@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, non_constant_identifier_names
 
+import 'package:cafeite/utils/model.dart';
 import 'package:http/http.dart' as http;
 
 class DataService {
@@ -1182,5 +1183,10 @@ class DataService {
       // Print error here
       return '[]';
     }
+  }
+
+  Future<List<PesananModel>> fetchOrders() async {
+    // Implement your logic here
+    return [];
   }
 }
