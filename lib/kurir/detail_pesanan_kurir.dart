@@ -6,140 +6,76 @@ import 'package:flutter/material.dart';
 import 'package:cafeite/utils/restapi_pesanan.dart';
 import 'package:cafeite/utils/model.dart';
 import 'package:cafeite/config.dart';
-import 'package:cafeite/kurir/pengiriman.dart';
+import 'package:cafeite/kurir/registerpage_kurir.dart';
 
 class DetailPesananKurir extends StatefulWidget {
-  const DetailPesananKurir({Key? key}) : super(key: key);
+  final PesananModel item;
+
+  DetailPesananKurir({required this.item});
 
   @override
-  DetailPesananKurirState createState() => DetailPesananKurirState();
+  _DetailPesananKurirState createState() => _DetailPesananKurirState();
 }
 
-class DetailPesananKurirState extends State<DetailPesananKurir> {
-  DataService ds = DataService();
-
-  late ValueNotifier<int> _notifier;
-
-  List<PesananModel> pesanan = [];
-  late Future<void> _future;
-
-  @override
-  void initState() {
-    super.initState();
-    _notifier = ValueNotifier<int>(0);
-  }
-
-  bool _isInitialized = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_isInitialized) {
-      final args = ModalRoute.of(context)?.settings.arguments as List<String>;
-      _future = reloadDataPesanan(args[0]);
-      _isInitialized = true;
-    }
-  }
-
-  selectIdPesanan(String id) async {
-    print("Fetching data for id: $id");
-    List data =
-        jsonDecode(await ds.selectId(token, project, 'pesanan', appid, id));
-    print("Data fetched: $data");
-    pesanan = data.map((e) => PesananModel.fromJson(e)).toList();
-  }
-
-  Future reloadDataPesanan(dynamic value) async {
-    final args = ModalRoute.of(context)?.settings.arguments as List<String>;
-    List data = jsonDecode(
-        await ds.selectId(token, project, 'pesanan', appid, args[0]));
-    setState(() {
-      pesanan = data.map((e) => PesananModel.fromJson(e)).toList();
-    });
-  }
+class _DetailPesananKurirState extends State<DetailPesananKurir> {
+  String username = '';
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as List<String>;
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pesanan"),
+        title: const Text("Detail Pesanan"),
         elevation: 0,
-        actions: <Widget>[],
       ),
-      body: FutureBuilder<void>(
-        future: _future,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const Text('None');
-            case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator());
-            case ConnectionState.active:
-              return const Text("Active");
-            case ConnectionState.done:
-              if (snapshot.hasError) {
-                return Text(
-                  '${snapshot.error}',
-                  style: const TextStyle(color: Colors.red),
-                );
-              } else {
-                if (pesanan.isEmpty) {
-                  return const Center(child: Text('No data found.'));
-                }
-                return ListView(
-                  children: [
-                    // Bagian Header Gambar
-                    Card(
-                      child: ListTile(
-                        title: Text(pesanan[0].userid),
-                        subtitle: const Text(
-                          "id user",
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        leading: IconButton(
-                          icon: const Icon(
-                            Icons.tips_and_updates_outlined,
-                            color: Colors.grey,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        title: Text(pesanan[0].alamat),
-                        subtitle: const Text(
-                          "Alamat",
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        leading: IconButton(
-                          icon: const Icon(
-                            Icons.filter_vintage_sharp,
-                            color: Colors.grey,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        title: Text(pesanan[0].pembayaran),
-                      ),
-                    ),
-                  ],
-                );
-              }
-          }
-        },
+      body: ListView(
+        children: [
+          Card(
+            child: ListTile(
+              title: Text(username),
+              subtitle: const Text(
+                "Nama",
+                style: TextStyle(color: Colors.black54),
+              ),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(widget.item.pesanan_yang_di_pesan ?? 'Unknown Order'),
+              subtitle: const Text(
+                "Pesanan",
+                style: TextStyle(color: Colors.black54),
+              ),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(widget.item.alamat ?? 'Unknown Address'),
+              subtitle: const Text(
+                "Alamat",
+                style: TextStyle(color: Colors.black54),
+              ),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(widget.item.pembayaran ?? 'Unknown Payment'),
+              subtitle: const Text(
+                "Metode pembayaran",
+                style: TextStyle(color: Colors.black54),
+              ),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(widget.item.status_pesanan ?? 'Unknown Status'),
+              subtitle: const Text(
+                "Status Pesanan",
+                style: TextStyle(color: Colors.black54),
+              ),
+            ),
+          ),
+        ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _notifier.dispose();
-    super.dispose();
   }
 }

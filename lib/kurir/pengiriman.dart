@@ -226,8 +226,9 @@ class _PengirimanPageState extends State<PengirimanPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailPesananKurir(),
+                                      builder: (context) => DetailPesananKurir(
+                                        item: item,
+                                      ),
                                     ),
                                   );
                                 },
