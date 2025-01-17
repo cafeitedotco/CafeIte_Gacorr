@@ -5,6 +5,7 @@ class MakananberatModel {
   final String deskripsi;
   final String image;
   final String kategori;
+  final String stock;
 
   MakananberatModel(
       {required this.id,
@@ -12,7 +13,8 @@ class MakananberatModel {
       required this.harga,
       required this.deskripsi,
       required this.image,
-      required this.kategori});
+      required this.kategori,
+      required this.stock});
 
   factory MakananberatModel.fromJson(Map data) {
     return MakananberatModel(
@@ -21,7 +23,8 @@ class MakananberatModel {
         harga: data['harga'],
         deskripsi: data['deskripsi'],
         image: data['image'],
-        kategori: data['kategori']);
+        kategori: data['kategori'],
+        stock: data['stock']);
   }
 }
 

@@ -1,21 +1,24 @@
-import 'package:cafeite/user/navigation_bar_user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:cafeite/kurir/navbar_kurir.dart';
 
-class ProfileScreenUser extends StatelessWidget {
-  const ProfileScreenUser({Key? key}) : super(key: key);
+class ProfileScreenKurir extends StatelessWidget {
+  const ProfileScreenKurir({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Mengambil pengguna saat ini
     User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
+        // Tambahkan SingleChildScrollView untuk scrollable
         child: Column(
           children: [
+            // Gambar Profil
             Padding(
               padding: const EdgeInsets.only(top: 50.0),
               child: Center(
@@ -29,6 +32,8 @@ class ProfileScreenUser extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Informasi Pengguna
             const SizedBox(height: 20),
             FutureBuilder<DocumentSnapshot>(
               future: FirebaseFirestore.instance
@@ -49,7 +54,6 @@ class ProfileScreenUser extends StatelessWidget {
                 var userData = snapshot.data!.data() as Map<String, dynamic>;
                 String username =
                     userData['username'] ?? 'Tidak Ada Nama Pengguna';
-                String status = userData['status'] ?? 'Tidak Ada Status';
                 String email = user?.email ?? 'Tidak Ada Email';
 
                 return Column(
@@ -60,10 +64,6 @@ class ProfileScreenUser extends StatelessWidget {
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      status,
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
-                    ),
                     const SizedBox(height: 8),
                     Text(
                       email,
@@ -73,6 +73,8 @@ class ProfileScreenUser extends StatelessWidget {
                 );
               },
             ),
+
+            // Menu Item
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
@@ -81,7 +83,7 @@ class ProfileScreenUser extends StatelessWidget {
                   const SizedBox(height: 16),
                   _buildMenuItem(
                     icon: Icons.history,
-                    title: 'Riwayat Pesanan',
+                    title: 'Riwayat Pengiriman',
                   ),
                   const SizedBox(height: 16),
                   _buildMenuItem(
@@ -93,26 +95,33 @@ class ProfileScreenUser extends StatelessWidget {
                     icon: Icons.help,
                     title: 'Bantuan',
                   ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () async {
+                      // Keluar dari pengguna
+                      await FirebaseAuth.instance
+                          .signOut(); // Keluar dari Firebase
+
+                      // Hapus status login
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.remove('is_logged_in');
+
+                      // Navigasi ke halaman login
+                      Navigator.pushNamed(context, 'loginpage_kurir');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(200, 50),
+                    ),
+                    child: const Text('Logout'),
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavigationUser(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await FirebaseAuth.instance.signOut();
-
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.remove('is_logged_in');
-
-          Navigator.pushNamed(context, 'login_page');
-        },
-        child: const Icon(Icons.logout),
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
-      ),
+      bottomNavigationBar: const BottomNavigationKurir(),
     );
   }
 

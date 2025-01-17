@@ -1,37 +1,35 @@
-// ignore_for_file: unused_element
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cafeite/admin/pages/home_admin.dart'; // Ensure you import HomeScreen
+import 'package:cafeite/cust/pages/home_user.dart'; // Ensure you import HomeScreenUser
+import 'package:cafeite/admin/pages/register.dart';
 
-import 'package:cafeite/admin/pages/home_admin.dart'; // Pastikan Anda mengimpor HomeScreen
-import 'package:cafeite/user/pages/home_user.dart'; // Pastikan Anda mengimpor HomeScreenUser
-import 'package:cafeite/pages/register.dart';
-
-class LoginPage extends StatefulWidget {
+class LoginPageAdmin extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginPageAdminState createState() => _LoginPageAdminState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageAdminState extends State<LoginPageAdmin> {
   final _formKey = GlobalKey<FormState>();
   late String email;
   late String password;
 
-  // Warna tema
+  // Admin credentials map
+  final Map<String, String> adminCredentials = {
+    'tenant1@gmail.com': 'tenant1',
+    'tenant2@gmail.com': 'tenant2',
+    'tenant3@gmail.com': 'tenant3',
+  };
+
+  // Theme colors
   final Color primaryColor = const Color(0xFFF4A261);
   final Color backgroundColor = const Color(0xFFFFF1E6);
 
-  // Fungsi untuk menyimpan status login
+  // Function to save login status
   Future<void> _saveSession() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('is_logged_in', true);
-  }
-
-  // Fungsi untuk menghapus status login
-  Future<void> _clearSession() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('is_logged_in', false);
   }
 
   @override
@@ -57,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  'Selamat Datang di CafeIte\nLogin Untuk Memesan makanan',
+                  'Selamat Datang di CafeIte\nLogin Anda Sebagai Admin',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16.0),
                 ),
@@ -132,49 +130,19 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        try {
-                          // Coba untuk sign in dengan email dan password
-                          UserCredential userCredential = await FirebaseAuth
-                              .instance
-                              .signInWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
-
-                          // Jika berhasil, simpan status login
+                        // Check if the email and password match the admin credentials
+                        if (adminCredentials[email] == password) {
                           await _saveSession();
-
-                          // Arahkan pengguna ke HomeScreen atau HomeScreenUser
-                          if (userCredential.user!.email == 'admin@gmail.com') {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePageAdmin()),
-                              (Route<dynamic> route) => false,
-                            );
-                          } else {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePageUser()),
-                              (Route<dynamic> route) => false,
-                            );
-                          }
-                        } on FirebaseAuthException catch (e) {
-                          // Tangani kesalahan jika login gagal
-                          String message;
-                          if (e.code == 'user-not-found') {
-                            message =
-                                'Tidak ada pengguna yang ditemukan dengan email tersebut.';
-                          } else if (e.code == 'wrong-password') {
-                            message = 'Password yang dimasukkan salah.';
-                          } else {
-                            message = 'Terjadi kesalahan. Silakan coba lagi.';
-                          }
-
-                          // Tampilkan pesan kesalahan
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomePageAdmin()),
+                            (Route<dynamic> route) => false,
+                          );
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(message)),
+                            SnackBar(
+                                content: Text('Invalid email or password')),
                           );
                         }
                       }

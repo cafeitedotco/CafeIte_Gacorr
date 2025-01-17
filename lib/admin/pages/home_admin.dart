@@ -63,8 +63,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                showInsertDialog(
-                    context, appid, ds); // Call the dialog without await
+                showInsertDialog(context, appid, ds);
               },
             ),
           ],
@@ -93,9 +92,10 @@ class HomePageAdminState extends State<HomePageAdmin> {
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 13,
-                mainAxisSpacing: 8.0,
+                crossAxisCount: 2, // Two items per row
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                childAspectRatio: 0.75, // Adjust the aspect ratio for height
               ),
               itemCount: makananberat.length,
               itemBuilder: (context, index) {
@@ -108,8 +108,8 @@ class HomePageAdminState extends State<HomePageAdmin> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    elevation: 6.0,
-                    margin: const EdgeInsets.all(10.0),
+                    elevation: 4.0,
+                    margin: const EdgeInsets.all(8.0),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -135,10 +135,28 @@ class HomePageAdminState extends State<HomePageAdmin> {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            "RP. ${item.harga}",
+                            "Stock: ${item.stock}",
                             style: const TextStyle(
-                              fontSize: 16.0,
+                              fontSize: 14.0,
                               color: Colors.grey,
+                            ),
+                          ),
+                          const Spacer(), // Pushes the stock status text to the bottom
+                          Align(
+                            alignment: Alignment
+                                .bottomRight, // Align text to the bottom right
+                            child: Text(
+                              (int.tryParse(item.stock) ?? 0) > 0
+                                  ? 'Tersedia'
+                                  : 'Habis', // Check stock availability
+                              style: TextStyle(
+                                color: (int.tryParse(item.stock) ?? 0) > 0
+                                    ? Colors.green
+                                    : Colors
+                                        .red, // Set text color based on stock
+                                fontWeight:
+                                    FontWeight.bold, // Optional: make it bold
+                              ),
                             ),
                           ),
                         ],
@@ -160,6 +178,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
     final harga = TextEditingController();
     final deskripsi = TextEditingController();
     final image = TextEditingController();
+    final stock = TextEditingController(); // New stock controller
     String kategori = 'Makanan';
 
     showDialog(
@@ -187,6 +206,11 @@ class HomePageAdminState extends State<HomePageAdmin> {
                   TextFormField(
                     controller: image,
                     decoration: const InputDecoration(labelText: 'ImageUrl'),
+                  ),
+                  TextFormField(
+                    controller: stock, // New stock input field
+                    decoration: const InputDecoration(labelText: 'Stock'),
+                    keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField<String>(
@@ -216,7 +240,9 @@ class HomePageAdminState extends State<HomePageAdmin> {
                 if (nama.text.isNotEmpty &&
                     harga.text.isNotEmpty &&
                     deskripsi.text.isNotEmpty &&
-                    image.text.isNotEmpty) {
+                    image.text.isNotEmpty &&
+                    stock.text.isNotEmpty) {
+                  // Check stock field
                   try {
                     String responseString = await ds.insertMakananberat(
                       appid,
@@ -225,6 +251,7 @@ class HomePageAdminState extends State<HomePageAdmin> {
                       deskripsi.text,
                       image.text,
                       kategori,
+                      stock.text, // Pass stock to the API
                     );
 
                     final response = jsonDecode(responseString);

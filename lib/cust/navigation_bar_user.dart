@@ -1,15 +1,12 @@
-import 'package:cafeite/admin/pages/home_admin.dart';
-import 'package:cafeite/admin/pages/profile_admin.dart';
+import 'package:cafeite/cust/pages/home_user.dart';
+import 'package:cafeite/cust/pages/profile_user.dart';
+import 'package:cafeite/cust/pages/pesanan_saya.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:cafeite/utils/restapi.dart';
-import 'package:cafeite/utils/model.dart';
-import 'package:cafeite/admin/pages/pesanan.dart';
-import 'package:cafeite/admin/pages/dashboard.dart';
 
-class BottomNavigationAdmin extends StatelessWidget {
-  const BottomNavigationAdmin({Key? key}) : super(key: key);
+class BottomNavigationUser extends StatelessWidget {
+  const BottomNavigationUser({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +25,6 @@ class BottomNavigationAdmin extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // Home Button
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -37,70 +33,46 @@ class BottomNavigationAdmin extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => Dashboard()),
+                    MaterialPageRoute(builder: (context) => HomePageUser()),
                     (Route<dynamic> route) => false,
                   );
                 },
               ),
               const Text(
-                "Dashboard",
+                "Home",
                 style: TextStyle(fontSize: 12),
               ),
             ],
           ),
-
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.fastfood_outlined, size: 30),
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePageAdmin()),
-                    (Route<dynamic> route) => false,
-                  );
-                },
-              ),
-              const Text(
-                "Makanan",
-                style: TextStyle(fontSize: 12),
-              ),
-            ],
-          ),
-
-          // Pesanan Saya Button
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                 icon: const Icon(Icons.shopping_basket, size: 30),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PesananAdmin()));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => PesananSaya()),
+                    (Route<dynamic> route) => false,
+                  );
                 },
               ),
               const Text(
-                "Pesanan",
+                "Pesanan Saya",
                 style: TextStyle(fontSize: 12),
               ),
             ],
           ),
-
-          // Profile Button
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                 icon: const Icon(Icons.person, size: 30),
                 onPressed: () {
-                  // Uncomment and replace with your ProfileScreen
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProfileScreenAdmin()),
+                        builder: (context) => ProfileScreenUser()),
                     (Route<dynamic> route) => false,
                   );
                 },
@@ -116,5 +88,3 @@ class BottomNavigationAdmin extends StatelessWidget {
     );
   }
 }
-
-// Function to show the insert dialog

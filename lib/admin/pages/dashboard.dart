@@ -17,10 +17,12 @@ class DashboardState extends State<Dashboard> {
   final searchKeyword = TextEditingController();
   DataService ds = DataService();
   List<MakananberatModel> makananberat = [];
+  List<dynamic> allPesanan = []; // List to hold all orders
 
   // Placeholder for counts
   int incomingOrders = 0;
   int ordersInProcess = 0;
+  int completedOrders = 0;
 
   // Date selection variables
   DateTime? selectedDate;
@@ -32,54 +34,49 @@ class DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     fetchMakananberat(); // Fetch data on initialization
-    fetchIncomingOrders(); // Fetch incoming orders
-    fetchOrdersInProcess(); // Fetch orders in process
+    fetchOrderCounts(); // Fetch counts for all order states
+    fetchAllPesanan(); // Fetch all pesanan on initialization
   }
 
   Future<void> fetchMakananberat() async {
     final response = await ds.selectAll(
         token, project, 'makananberat', appid); // Fetch all data
 
-    // Print the raw response for debugging
-    print("API Response: $response");
-
     List data = jsonDecode(response);
-    print("Decoded data: $data"); // Check the structure of the decoded data
-
     setState(() {
       makananberat = data.map((e) => MakananberatModel.fromJson(e)).toList();
-
-      // Print the fetched categories
-      print(
-          "Fetched categories: ${makananberat.map((e) => e.kategori).toList()}");
-
-      // Build dataMap from makananberat
-      dataMap = {};
-      for (var item in makananberat) {
-        // Count occurrences of each category
-        dataMap[item.kategori] =
-            (dataMap[item.kategori] ?? 0) + 1; // Count the categories
-      }
-
-      print("DataMap: $dataMap"); // Check the built dataMap
     });
   }
 
-  Future<void> fetchIncomingOrders() async {
-    final response = await ds.selectAll(token, project, 'pesanan', appid);
-    List data = jsonDecode(response);
+  Future<void> fetchOrderCounts() async {
+    incomingOrders = (await ds.selectWhere(
+            token, project, 'pesanan', appid, 'status_pesanan', 'Masuk'))
+        .length;
+    ordersInProcess = (await ds.selectWhere(token, project, 'pesanan', appid,
+            'status_pesanan', 'Makanan Sedang Dibuat'))
+        .length;
+    completedOrders = (await ds.selectWhere(token, project, 'pesanan', appid,
+            'status_pesanan', 'Orderan Selesai'))
+        .length;
 
+    // Update dataMap for Pie Chart
     setState(() {
-      incomingOrders = data.length; // Use the length of the response
+      dataMap = {
+        "Pesanan Masuk": incomingOrders.toDouble(),
+        "Pesanan Diproses": ordersInProcess.toDouble(),
+        "Pesanan Selesai": completedOrders.toDouble(),
+      };
     });
   }
 
-  Future<void> fetchOrdersInProcess() async {
-    final response = await ds.selectAll(token, project, 'pesanan', appid);
+  Future<void> fetchAllPesanan() async {
+    final response = await ds.selectAll(
+        token, project, 'pesanan', appid); // Fetch all orders
     List data = jsonDecode(response);
 
+    // Update state with fetched data
     setState(() {
-      ordersInProcess = data.length; // Use the length of the response
+      allPesanan = data; // Store all orders in the list
     });
   }
 
@@ -163,12 +160,12 @@ class DashboardState extends State<Dashboard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${makananberat.length}",
+                            "${allPesanan.length}", // Use allPesanan length
                             style: TextStyle(
                                 fontSize: 36, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "TOTAL PESANAN",
+                            "TOTAL PESANAN", // Label remains the same
                             style: TextStyle(fontSize: 12, color: Colors.black),
                           ),
                         ],
@@ -232,7 +229,7 @@ class DashboardState extends State<Dashboard> {
             ),
           ),
           const SizedBox(height: 16),
-          // Pie Chart
+          // Pie Chart for orders
           Expanded(
             child: dataMap.isNotEmpty
                 ? PieChart(
@@ -243,11 +240,11 @@ class DashboardState extends State<Dashboard> {
                     colorList: [
                       Colors.blue,
                       Colors.green,
-                      Colors.red,
                       Colors.orange,
+                      Colors.red,
                     ],
                     chartType: ChartType.ring,
-                    centerText: "Kategori makanan",
+                    centerText: "Pesanan",
                     legendOptions: LegendOptions(
                       showLegendsInRow: false,
                       legendPosition: LegendPosition.right,

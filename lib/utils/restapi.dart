@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class DataService {
   Future insertMakananberat(String appid, String nama, String harga,
-      String deskripsi, String image, String kategori) async {
+      String deskripsi, String image, String kategori, String stock) async {
     String uri = 'https://io.etter.cloud/v4/insert';
 
     try {
@@ -17,7 +17,8 @@ class DataService {
         'harga': harga,
         'deskripsi': deskripsi,
         'image': image,
-        'kategori': kategori
+        'kategori': kategori,
+        'stock': stock
       });
 
       if (response.statusCode == 200) {
@@ -1174,6 +1175,4 @@ class DataService {
       return '[]';
     }
   }
-
-  
 }

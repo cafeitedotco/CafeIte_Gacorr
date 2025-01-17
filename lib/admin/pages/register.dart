@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cafeite/pages/login.dart';
+import 'package:cafeite/admin/pages/login.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -219,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LoginPage()),
+                                        builder: (context) => LoginPageAdmin()),
                                   );
                                 }
                               } catch (e) {
@@ -260,7 +260,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
+                                  builder: (context) => LoginPageAdmin()),
                             );
                           },
                           child: Text(
