@@ -47,14 +47,33 @@ class _RegisterPageKurirState extends State<RegisterPageKurir> {
                         TextFormField(
                           controller: _emailController,
                           decoration: InputDecoration(
-                              hintText: 'Email',
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                              prefixIcon:
-                                  Icon(Icons.mail, color: Colors.black87),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                              )),
+                            hintText: 'Email',
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            prefixIcon: Icon(Icons.lock, color: Colors.black87),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.white), // Warna border default
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .white), // Warna border saat tidak fokus
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.white), // Warna border saat fokus
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.red), // Warna border saat error
+                            ),
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -66,14 +85,33 @@ class _RegisterPageKurirState extends State<RegisterPageKurir> {
                         TextFormField(
                           controller: _usernameController,
                           decoration: InputDecoration(
-                              hintText: 'Username',
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                              prefixIcon:
-                                  Icon(Icons.person, color: Colors.black87),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                              )),
+                            hintText: 'Username',
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            prefixIcon: Icon(Icons.lock, color: Colors.black87),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.white), // Warna border default
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .white), // Warna border saat tidak fokus
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.white), // Warna border saat fokus
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.red), // Warna border saat error
+                            ),
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your username';
@@ -88,10 +126,28 @@ class _RegisterPageKurirState extends State<RegisterPageKurir> {
                             hintText: 'Phone',
                             filled: true,
                             fillColor: Colors.grey[200],
-                            prefixIcon:
-                                Icon(Icons.phone, color: Colors.black87),
+                            prefixIcon: Icon(Icons.lock, color: Colors.black87),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.white), // Warna border default
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .white), // Warna border saat tidak fokus
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.white), // Warna border saat fokus
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.red), // Warna border saat error
                             ),
                           ),
                           validator: (value) {
@@ -106,12 +162,31 @@ class _RegisterPageKurirState extends State<RegisterPageKurir> {
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
-                            hintText: 'Password',
+                            hintText: 'Confirm Password',
                             filled: true,
                             fillColor: Colors.grey[200],
                             prefixIcon: Icon(Icons.lock, color: Colors.black87),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.white), // Warna border default
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .white), // Warna border saat tidak fokus
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.white), // Warna border saat fokus
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.red), // Warna border saat error
                             ),
                           ),
                           validator: (value) {
@@ -135,6 +210,25 @@ class _RegisterPageKurirState extends State<RegisterPageKurir> {
                             prefixIcon: Icon(Icons.lock, color: Colors.black87),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.white), // Warna border default
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .white), // Warna border saat tidak fokus
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.white), // Warna border saat fokus
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                  color: Colors.red), // Warna border saat error
                             ),
                           ),
                           validator: (value) {

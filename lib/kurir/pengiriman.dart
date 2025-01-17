@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:cafeite/kurir/navbar_kurir.dart';
 import 'package:cafeite/utils/model.dart';
 import 'package:cafeite/utils/restapi_pesanan.dart';
+import 'package:cafeite/kurir/detail_pesanan_kurir.dart';
 
 class PengirimanPage extends StatefulWidget {
-  const PengirimanPage({Key? key}) : super(key: key);
-
   @override
-  PengirimanPageState createState() => PengirimanPageState();
+  _PengirimanPageState createState() => _PengirimanPageState();
 }
 
-class PengirimanPageState extends State<PengirimanPage> {
+class _PengirimanPageState extends State<PengirimanPage> {
   final searchKeyword = TextEditingController();
   bool searchStatus = false;
 
@@ -20,6 +19,7 @@ class PengirimanPageState extends State<PengirimanPage> {
 
   List data = [];
   List<PesananModel> cafeite = [];
+  List<PesananModel> completedOrders = [];
 
   List<PesananModel> search_data = [];
   List<PesananModel> search_data_pre = [];
@@ -56,6 +56,19 @@ class PengirimanPageState extends State<PengirimanPage> {
     super.initState();
   }
 
+  void removeItem(int index) {
+    setState(() {
+      cafeite.removeAt(index);
+    });
+  }
+
+  void acceptItem(int index) {
+    setState(() {
+      final item = cafeite.removeAt(index);
+      completedOrders.add(item);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,35 +80,175 @@ class PengirimanPageState extends State<PengirimanPage> {
           child: searchField(),
         ),
       ),
-      body: ListView.builder(
-        itemCount: cafeite.length,
-        itemBuilder: (context, index) {
-          final item = cafeite[index];
-
-          return Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Nama Penerima: ${item.userid}',
-                    style: TextStyle(fontSize: 18),
+      body: ListView(
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Pesanan Masuk',
+                    style: TextStyle(fontSize: 14),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Alamat: ${item.alamat}',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
+                ),
               ),
-            ),
-          );
-        },
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: cafeite.length,
+                itemBuilder: (context, index) {
+                  final item = cafeite[index];
+                  return Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Nama Penerima: ${item.userid}',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        cafeite.removeAt(index);
+                                      });
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              'Pesanan ${item.userid} ditolak'),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.cancel),
+                                        SizedBox(width: 4),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Notification'),
+                                            content: Text(
+                                                'Pesanan dari ${item.userid} diterima'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text('OK'),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    final item =
+                                                        cafeite.removeAt(index);
+                                                    completedOrders.add(item);
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.check_circle),
+                                        SizedBox(width: 4),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Alamat: ${item.alamat}',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'List Pesanan',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: completedOrders.length,
+                itemBuilder: (context, index) {
+                  final item = completedOrders[index];
+                  return Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Nama Penerima: ${item.userid}',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailPesananKurir(),
+                                    ),
+                                  );
+                                },
+                                label: Text('Detail'),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Alamat: ${item.alamat}',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationKurir(),
     );
