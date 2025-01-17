@@ -9,5 +9,3 @@ Pengguna melakukan pembayaran dengan menggunakan sistem pembayaran COD (cash on 
 https://www.figma.com/design/w6WkNS1cb03SE1XDvK4htR/CafeITe?node-id=0-1&t=T8gM7zM7ngOVHYee-1
 
 
-![ai-bot](https://github.com/user-attachments/assets/253e1dca-71bf-4426-aad7-b3d881859b49)
-
