@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: WelcomeScreen(),
       routes: {
         'home_kurir': (context) => HomePageKurir(),
         'home_admin': (context) => HomePageAdminSnack(),
@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
         'home_user': (context) => HomePageUser(),
         'pengirimanpage': (context) => PengirimanPage(),
         'home': (contexxt) => HomePage(),
+        'landingpage': (context) => WelcomeScreen(),
       },
     );
   }

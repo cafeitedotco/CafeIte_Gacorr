@@ -18,8 +18,8 @@ class _LoginPageKurirState extends State<LoginPageKurir> {
   late String _password;
 
   // Theme colors
-  final Color _primaryColor = const Color(0xFFF4A261);
-  final Color _backgroundColor = const Color(0xFFFFF1E6);
+  final Color _primaryColor = const Color(0xFF8B0000);
+  final Color _backgroundColor = const Color(0xFFF7EED3);
 
   Future<void> _saveSession() async {
     final prefs = await SharedPreferences.getInstance();
@@ -35,6 +35,16 @@ class _LoginPageKurirState extends State<LoginPageKurir> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: _backgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Kembali ke halaman sebelumnya
+          },
+        ),
+      ),
       backgroundColor: _backgroundColor,
       body: Center(
         child: SingleChildScrollView(
@@ -95,7 +105,8 @@ class _LoginPageKurirState extends State<LoginPageKurir> {
                   onPressed: () => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RegisterPageKurir()),
+                      builder: (context) => RegisterPageKurir(),
+                    ),
                   ),
                   child: Text(
                     'Don’t have an account? Register here',

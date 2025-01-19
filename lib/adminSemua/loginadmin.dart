@@ -23,8 +23,8 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
   final FirebaseAuth _auth = FirebaseAuth.instance; // Firebase Auth instance
 
   // Theme colors
-  final Color primaryColor = const Color(0xFFF4A261);
-  final Color backgroundColor = const Color(0xFFFFF1E6);
+  final Color primaryColor = const Color(0xFF8B0000);
+  final Color backgroundColor = const Color(0xFFF7EED3);
 
   // Function to save login status
   Future<void> _saveSession() async {
@@ -35,6 +35,16 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Kembali ke halaman sebelumnya
+          },
+        ),
+      ),
       backgroundColor: backgroundColor,
       body: Center(
         child: SingleChildScrollView(

@@ -20,8 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   late String password;
 
   // Warna tema
-  final Color primaryColor = const Color(0xFFF4A261);
-  final Color backgroundColor = const Color(0xFFFFF1E6);
+  final Color primaryColor = const Color(0xFF8B0000);
+  final Color backgroundColor = const Color(0xFFF7EED3);
 
   // Fungsi untuk menyimpan status login
   Future<void> _saveSession() async {
@@ -38,6 +38,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Kembali ke halaman sebelumnya
+          },
+        ),
+      ),
       backgroundColor: backgroundColor,
       body: Center(
         child: SingleChildScrollView(

@@ -108,7 +108,7 @@ class ProfileScreenKurir extends StatelessWidget {
                       await prefs.remove('is_logged_in');
 
                       // Navigasi ke halaman login
-                      Navigator.pushReplacementNamed(context, 'home');
+                      Navigator.pushReplacementNamed(context, 'landingpage');
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(200, 50),
